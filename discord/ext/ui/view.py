@@ -10,6 +10,7 @@ from .message import Message
 from .types.view import Target, BuildResponse, Messageable, TargetType
 
 import logging  #  temporary
+logger = logging.getLogger(__name__)
 
 
 class View(ui.View):
@@ -22,8 +23,6 @@ class View(ui.View):
         self._discord_message: Optional[discord.Message] = None
         self.started: asyncio.Event = asyncio.Event()
         self._target_type: TargetType = TargetType.Normal
-
-        logging.debug('init')
 
     def __init_subclass__(cls) -> None:
         pass
@@ -109,13 +108,15 @@ class View(ui.View):
             return
         message: Message = await self.body()
         kwargs = await self._view_message.update(message, self)
-        logging.debug(f'update: {kwargs}')
+        logger.debug(f'update: {kwargs}')
         await self._discord_message.edit(**kwargs)
 
     async def setup(self) -> 'View':
         self._view_message = await self.body()
         if self._view_message.component is not None:
             self._view_message.component.make(self)
+
+        logger.debug('setup')
 
         return self
 
@@ -137,7 +138,7 @@ class View(ui.View):
     async def _scheduled_task(self, item: ui.Item, interaction: discord.Interaction) -> None:
         if self._discord_message is None:
             self._set_message(interaction.message)
-        logging.debug(f'_scheduled_task: {item}\n{interaction}')
+        logger.debug(f'_scheduled_task: {item}\n{interaction}')
         await super(View, self)._scheduled_task(item, interaction)
 
     def _raise_for_not_started(self) -> None:
