@@ -9,10 +9,6 @@ from .combine import ObservableObject
 from .message import Message
 from .types.view import Target, BuildResponse, Messageable, TargetType
 
-import logging  #  temporary
-logger = logging.getLogger(__name__)
-logger.debug('loaded')
-
 
 class View(ui.View):
     def __init__(self, state: Union[discord.Client, commands.Bot]) -> None:
@@ -109,7 +105,7 @@ class View(ui.View):
             return
         message: Message = await self.body()
         kwargs = await self._view_message.update(message, self)
-        logger.debug(f'update: {kwargs}')
+        print(f'update: {kwargs}')
         await self._discord_message.edit(**kwargs)
 
     async def setup(self) -> 'View':
@@ -117,7 +113,7 @@ class View(ui.View):
         if self._view_message.component is not None:
             self._view_message.component.make(self)
 
-        logger.debug('setup')
+        print('setup')
 
         return self
 
@@ -139,7 +135,7 @@ class View(ui.View):
     async def _scheduled_task(self, item: ui.Item, interaction: discord.Interaction) -> None:
         if self._discord_message is None:
             self._set_message(interaction.message)
-        logger.debug(f'_scheduled_task: {item}\n{interaction}')
+        print(f'_scheduled_task: {item}\n{interaction}')
         await super(View, self)._scheduled_task(item, interaction)
 
     def _raise_for_not_started(self) -> None:

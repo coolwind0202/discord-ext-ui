@@ -15,7 +15,7 @@ def published(name: str):
     def setter(instance: T, value: Any) -> None:
         instance.__dict__[name] = value
         if isinstance(instance, ObservableObject):
-            logger.debug(f'set: {instance}\n{value}')
+            print(f'set: {instance}\n{value}')
             instance.notify()
 
     return property(getter, setter)
