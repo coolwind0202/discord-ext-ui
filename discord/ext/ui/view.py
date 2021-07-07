@@ -100,8 +100,10 @@ class View(ui.View):
 
     async def update(self) -> None:
         if not self.started.is_set():
+            print('is_set_false')
             return
         if self._discord_message is None:
+            print('discord_message is None')
             return
         message: Message = await self.body()
         kwargs = await self._view_message.update(message, self)
@@ -127,6 +129,7 @@ class View(ui.View):
 
     def update_sync(self) -> None:
         if self._state is not None:
+            print('update_sync')
             self._state.loop.create_task(self.update())
 
     def _set_message(self, message: discord.Message) -> None:

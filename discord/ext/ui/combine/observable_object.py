@@ -15,5 +15,6 @@ class ObservableObject:
         update view
         :return: None
         """
+        print('view_is_not_none', self.view is not None)
         if self.view is not None:
             self.view.update_sync()
