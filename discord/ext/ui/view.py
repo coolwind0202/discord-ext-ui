@@ -11,6 +11,7 @@ from .types.view import Target, BuildResponse, Messageable, TargetType
 
 import logging  #  temporary
 logger = logging.getLogger(__name__)
+logger.debug('loaded')
 
 
 class View(ui.View):
