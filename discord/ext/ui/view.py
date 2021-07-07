@@ -23,6 +23,8 @@ class View(ui.View):
         self.started: asyncio.Event = asyncio.Event()
         self._target_type: TargetType = TargetType.Normal
 
+        logging.debug('init')
+
     def __init_subclass__(cls) -> None:
         pass
 
